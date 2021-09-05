@@ -31,11 +31,13 @@ public class StatementDataService {
     }
 
     private Performance enrichPerformance(Performance performance, Map<String, Play> plays) throws Exception {
+        PerformanceCalculator calculator = new PerformanceCalculator(performance, playFor(performance, plays));
+
         Performance result = new Performance();
         BeanUtils.copyProperties(performance, result);
-        result.setPlay(playFor(result, plays));
-        result.setAmount(amountFor(result));
-        result.setVolumeCredits(volumeCreditsFor(result));
+        result.setPlay(calculator.getPlay());
+        result.setAmount(calculator.getAmount());
+        result.setVolumeCredits(calculator.getVolumeCredits());
         return result;
     }
 
@@ -53,38 +55,15 @@ public class StatementDataService {
                 .sum();
     }
 
-    private int volumeCreditsFor(Performance aPerformance) {
-        int result = 0;
-        result += Math.max(aPerformance.getAudience() - 30, 0);
-        if ("comedy".equals(aPerformance.getPlay().getType())) {
-            result += Math.floor(aPerformance.getAudience() / 5);
-        }
-        return result;
+    private int volumeCreditsFor(Performance aPerformance, Map<String, Play> plays) {
+        return new PerformanceCalculator(aPerformance, playFor(aPerformance, plays)).getVolumeCredits();
     }
 
     private Play playFor(Performance aPerformance, Map<String, Play> plays) {
         return plays.get(aPerformance.getPlayId());
     }
 
-    private int amountFor(Performance aPerformance) throws Exception {
-        int result = 0;
-        switch (aPerformance.getPlay().getType()) {
-            case "tragedy":
-                result = 40000;
-                if (aPerformance.getAudience() > 30) {
-                    result += 1000 * (aPerformance.getAudience() - 30);
-                }
-                break;
-            case "comedy":
-                result = 30000;
-                if (aPerformance.getAudience() > 20) {
-                    result += 10000 + 500 * (aPerformance.getAudience() - 20);
-                }
-                result += 300 * aPerformance.getAudience();
-                break;
-            default:
-                throw new Exception("unknown type: " + aPerformance.getPlay().getType());
-        }
-        return result;
+    private int amountFor(Performance aPerformance, Map<String, Play> plays) throws Exception {
+        return new PerformanceCalculator(aPerformance, playFor(aPerformance, plays)).getAmount();
     }
 }
