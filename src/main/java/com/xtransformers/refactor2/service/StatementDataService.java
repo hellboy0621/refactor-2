@@ -37,7 +37,7 @@ public class StatementDataService {
         BeanUtils.copyProperties(performance, result);
         result.setPlay(calculator.getPlay());
         result.setAmount(calculator.getAmount());
-        result.setVolumeCredits(volumeCreditsFor(result, plays));
+        result.setVolumeCredits(calculator.getVolumeCredits());
         return result;
     }
 
