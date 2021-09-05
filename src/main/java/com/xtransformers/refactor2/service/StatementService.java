@@ -24,10 +24,10 @@ public class StatementService {
         StatementData statementData = new StatementData();
         statementData.setCustomer(invoice.getCustomer());
         statementData.setPerformances(invoice.getPerformances());
-        return renderPlainText(statementData, invoice);
+        return renderPlainText(statementData);
     }
 
-    private String renderPlainText(StatementData statementData, Invoice invoice) throws Exception {
+    private String renderPlainText(StatementData statementData) throws Exception {
         String result = "Statement for " + statementData.getCustomer() + "\n";
         for (Performance perf : statementData.getPerformances()) {
             result += "  " + playFor(perf).getName() + ": " + usd(amountFor(perf) / 100) + " (" + perf.getAudience() + " seats)\n";
