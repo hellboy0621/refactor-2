@@ -24,16 +24,15 @@ public class StatementService {
         int totalAmount = 0;
         int volumeCredits = 0;
         String result = "Statement for " + invoice.getCustomer() + "\n";
-        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.US);
         for (Performance perf : invoice.getPerformances()) {
             volumeCredits += volumeCreditsFor(perf);
 
             // print line for this order
-            result += "  " + playFor(perf).getName() + ": " + numberFormat.format(amountFor(perf) / 100)
+            result += "  " + playFor(perf).getName() + ": " + format(amountFor(perf) / 100)
                     + " (" + perf.getAudience() + " seats)\n";
             totalAmount += amountFor(perf);
         }
-        result += "Amount owed is " + numberFormat.format(totalAmount / 100) + "\n";
+        result += "Amount owed is " + format(totalAmount / 100) + "\n";
         result += "You earned " + volumeCredits + " credits\n";
         return result;
     }
