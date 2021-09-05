@@ -36,7 +36,7 @@ public class StatementDataService {
         Performance result = new Performance();
         BeanUtils.copyProperties(performance, result);
         result.setPlay(calculator.getPlay());
-        result.setAmount(amountFor(result, plays));
+        result.setAmount(calculator.getAmount());
         result.setVolumeCredits(volumeCreditsFor(result));
         return result;
     }
@@ -69,6 +69,6 @@ public class StatementDataService {
     }
 
     private int amountFor(Performance aPerformance, Map<String, Play> plays) throws Exception {
-        return new PerformanceCalculator(aPerformance, playFor(aPerformance, plays)).amount();
+        return new PerformanceCalculator(aPerformance, playFor(aPerformance, plays)).getAmount();
     }
 }
