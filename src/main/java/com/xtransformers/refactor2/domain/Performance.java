@@ -30,4 +30,9 @@ public class Performance {
      * 总金额
      */
     private int amount;
+
+    /**
+     * 观众量积分
+     */
+    private int volumeCredits;
 }
