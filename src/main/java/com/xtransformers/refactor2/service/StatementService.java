@@ -32,19 +32,19 @@ public class StatementService {
     }
 
     private int totalAmount() throws Exception {
-        int totalAmount = 0;
+        int result = 0;
         for (Performance perf : invoice.getPerformances()) {
-            totalAmount += amountFor(perf);
+            result += amountFor(perf);
         }
-        return totalAmount;
+        return result;
     }
 
     private int totalVolumeCredits() {
-        int volumeCredits = 0;
+        int result = 0;
         for (Performance perf : invoice.getPerformances()) {
-            volumeCredits += volumeCreditsFor(perf);
+            result += volumeCreditsFor(perf);
         }
-        return volumeCredits;
+        return result;
     }
 
     private String usd(int aNumber) {
@@ -52,12 +52,12 @@ public class StatementService {
     }
 
     private int volumeCreditsFor(Performance aPerformance) {
-        int volumeCredits = 0;
-        volumeCredits += Math.max(aPerformance.getAudience() - 30, 0);
+        int result = 0;
+        result += Math.max(aPerformance.getAudience() - 30, 0);
         if ("comedy".equals(playFor(aPerformance).getType())) {
-            volumeCredits += Math.floor(aPerformance.getAudience() / 5);
+            result += Math.floor(aPerformance.getAudience() / 5);
         }
-        return volumeCredits;
+        return result;
     }
 
     private Play playFor(Performance aPerformance) {
