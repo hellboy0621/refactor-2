@@ -38,13 +38,14 @@ public class StatementService {
     private Performance enrichPerformance(Performance performance) {
         Performance result = new Performance();
         BeanUtils.copyProperties(performance, result);
+        result.setPlay(playFor(performance));
         return result;
     }
 
     private String renderPlainText(StatementData statementData) throws Exception {
         String result = "Statement for " + statementData.getCustomer() + "\n";
         for (Performance perf : statementData.getPerformances()) {
-            result += "  " + playFor(perf).getName() + ": " + usd(amountFor(perf) / 100) + " (" + perf.getAudience() + " seats)\n";
+            result += "  " + perf.getPlay().getName() + ": " + usd(amountFor(perf) / 100) + " (" + perf.getAudience() + " seats)\n";
         }
         result += "Amount owed is " + usd(totalAmount() / 100) + "\n";
         result += "You earned " + totalVolumeCredits() + " credits\n";
@@ -74,7 +75,7 @@ public class StatementService {
     private int volumeCreditsFor(Performance aPerformance) {
         int result = 0;
         result += Math.max(aPerformance.getAudience() - 30, 0);
-        if ("comedy".equals(playFor(aPerformance).getType())) {
+        if ("comedy".equals(aPerformance.getPlay().getType())) {
             result += Math.floor(aPerformance.getAudience() / 5);
         }
         return result;
@@ -86,7 +87,7 @@ public class StatementService {
 
     private int amountFor(Performance aPerformance) throws Exception {
         int result = 0;
-        switch (playFor(aPerformance).getType()) {
+        switch (aPerformance.getPlay().getType()) {
             case "tragedy":
                 result = 40000;
                 if (aPerformance.getAudience() > 30) {
@@ -101,7 +102,7 @@ public class StatementService {
                 result += 300 * aPerformance.getAudience();
                 break;
             default:
-                throw new Exception("unknown type: " + playFor(aPerformance).getType());
+                throw new Exception("unknown type: " + aPerformance.getPlay().getType());
         }
         return result;
     }
