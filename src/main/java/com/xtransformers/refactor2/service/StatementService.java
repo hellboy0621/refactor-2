@@ -28,13 +28,18 @@ public class StatementService {
                     + " (" + perf.getAudience() + " seats)\n";
             totalAmount += amountFor(perf);
         }
+        int volumeCredits = totalVolumeCredits(invoice);
+        result += "Amount owed is " + usd(totalAmount / 100) + "\n";
+        result += "You earned " + volumeCredits + " credits\n";
+        return result;
+    }
+
+    private int totalVolumeCredits(Invoice invoice) {
         int volumeCredits = 0;
         for (Performance perf : invoice.getPerformances()) {
             volumeCredits += volumeCreditsFor(perf);
         }
-        result += "Amount owed is " + usd(totalAmount / 100) + "\n";
-        result += "You earned " + volumeCredits + " credits\n";
-        return result;
+        return volumeCredits;
     }
 
     private String usd(int aNumber) {
