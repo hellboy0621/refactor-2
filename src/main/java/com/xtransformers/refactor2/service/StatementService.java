@@ -23,12 +23,13 @@ public class StatementService {
         this.plays = plays;
         StatementData statementData = new StatementData();
         statementData.setCustomer(invoice.getCustomer());
+        statementData.setPerformances(invoice.getPerformances());
         return renderPlainText(statementData, invoice);
     }
 
     private String renderPlainText(StatementData statementData, Invoice invoice) throws Exception {
         String result = "Statement for " + statementData.getCustomer() + "\n";
-        for (Performance perf : invoice.getPerformances()) {
+        for (Performance perf : statementData.getPerformances()) {
             result += "  " + playFor(perf).getName() + ": " + usd(amountFor(perf) / 100) + " (" + perf.getAudience() + " seats)\n";
         }
         result += "Amount owed is " + usd(totalAmount() / 100) + "\n";

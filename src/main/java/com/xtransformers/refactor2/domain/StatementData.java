@@ -2,6 +2,8 @@ package com.xtransformers.refactor2.domain;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * 中转数据结构
  *
@@ -15,5 +17,10 @@ public class StatementData {
      * 客户名称
      */
     private String customer;
+
+    /**
+     * 演出列表
+     */
+    private List<Performance> performances;
 
 }
