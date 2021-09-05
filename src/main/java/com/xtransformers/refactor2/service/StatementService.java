@@ -19,10 +19,9 @@ public class StatementService {
     public String statement(Invoice invoice, Map<String, Play> plays) throws Exception {
         this.plays = plays;
         int totalAmount = 0;
-        int volumeCredits = 0;
+
         String result = "Statement for " + invoice.getCustomer() + "\n";
         for (Performance perf : invoice.getPerformances()) {
-            volumeCredits += volumeCreditsFor(perf);
 
             // print line for this order
             result += "  " + playFor(perf).getName() + ": " + usd(amountFor(perf) / 100)
@@ -30,8 +29,16 @@ public class StatementService {
             totalAmount += amountFor(perf);
         }
         result += "Amount owed is " + usd(totalAmount / 100) + "\n";
-        result += "You earned " + volumeCredits + " credits\n";
+        result += "You earned " + totalVolumeCredits(invoice) + " credits\n";
         return result;
+    }
+
+    private int totalVolumeCredits(Invoice invoice) {
+        int volumeCredits = 0;
+        for (Performance perf : invoice.getPerformances()) {
+            volumeCredits += volumeCreditsFor(perf);
+        }
+        return volumeCredits;
     }
 
     private String usd(int aNumber) {
