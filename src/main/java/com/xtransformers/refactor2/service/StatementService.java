@@ -40,6 +40,7 @@ public class StatementService {
         BeanUtils.copyProperties(performance, result);
         result.setPlay(playFor(result));
         result.setAmount(amountFor(result));
+        result.setVolumeCredits(volumeCreditsFor(result));
         return result;
     }
 
@@ -64,7 +65,7 @@ public class StatementService {
     private int totalVolumeCredits() {
         int result = 0;
         for (Performance perf : statementData.getPerformances()) {
-            result += volumeCreditsFor(perf);
+            result += perf.getVolumeCredits();
         }
         return result;
     }
