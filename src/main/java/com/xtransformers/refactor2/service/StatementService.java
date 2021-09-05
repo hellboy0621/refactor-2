@@ -38,6 +38,10 @@ public class StatementService {
         return result;
     }
 
+    private String format(int aNumber) {
+        return NumberFormat.getCurrencyInstance(Locale.US).format(aNumber);
+    }
+
     private int volumeCreditsFor(Performance aPerformance) {
         int volumeCredits = 0;
         volumeCredits += Math.max(aPerformance.getAudience() - 30, 0);
