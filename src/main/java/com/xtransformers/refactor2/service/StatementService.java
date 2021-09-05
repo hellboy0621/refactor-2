@@ -18,28 +18,28 @@ import java.util.Map;
  */
 public class StatementService {
 
-    private Map<String, Play> plays;
-
     public String statement(Invoice invoice, Map<String, Play> plays) throws Exception {
-        this.plays = plays;
+        return renderPlainText(createStatementData(invoice, plays));
+    }
 
+    private StatementData createStatementData(Invoice invoice, Map<String, Play> plays) throws Exception {
         StatementData statementData = new StatementData();
         statementData.setCustomer(invoice.getCustomer());
         List<Performance> collect = new ArrayList<>();
         for (Performance each : invoice.getPerformances()) {
-            collect.add(enrichPerformance(each));
+            collect.add(enrichPerformance(each, plays));
         }
         statementData.setPerformances(collect);
 
         statementData.setTotalAmount(totalAmount(statementData));
         statementData.setTotalVolumeCredits(totalVolumeCredits(statementData));
-        return renderPlainText(statementData);
+        return statementData;
     }
 
-    private Performance enrichPerformance(Performance performance) throws Exception {
+    private Performance enrichPerformance(Performance performance, Map<String, Play> plays) throws Exception {
         Performance result = new Performance();
         BeanUtils.copyProperties(performance, result);
-        result.setPlay(playFor(result));
+        result.setPlay(playFor(result, plays));
         result.setAmount(amountFor(result));
         result.setVolumeCredits(volumeCreditsFor(result));
         return result;
@@ -82,7 +82,7 @@ public class StatementService {
         return result;
     }
 
-    private Play playFor(Performance aPerformance) {
+    private Play playFor(Performance aPerformance, Map<String, Play> plays) {
         return plays.get(aPerformance.getPlayId());
     }
 
