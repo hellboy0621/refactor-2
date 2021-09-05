@@ -12,6 +12,13 @@ import com.xtransformers.refactor2.domain.Play;
 public class PerformanceCalculatorFactory {
 
     public static PerformanceCalculator createPerformanceCalculator(Performance performance, Play play) {
-        return new PerformanceCalculator(performance, play);
+        switch (play.getType()) {
+            case "tragedy":
+                return new TragedyCalculator(performance, play);
+            case "comedy":
+                return new ComedyCalculator(performance, play);
+            default:
+                throw new RuntimeException("unknown type : " + play.getType());
+        }
     }
 }
