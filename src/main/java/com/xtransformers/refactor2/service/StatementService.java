@@ -28,16 +28,16 @@ public class StatementService {
             volumeCredits += volumeCreditsFor(perf);
 
             // print line for this order
-            result += "  " + playFor(perf).getName() + ": " + format(amountFor(perf) / 100)
+            result += "  " + playFor(perf).getName() + ": " + usd(amountFor(perf) / 100)
                     + " (" + perf.getAudience() + " seats)\n";
             totalAmount += amountFor(perf);
         }
-        result += "Amount owed is " + format(totalAmount / 100) + "\n";
+        result += "Amount owed is " + usd(totalAmount / 100) + "\n";
         result += "You earned " + volumeCredits + " credits\n";
         return result;
     }
 
-    private String format(int aNumber) {
+    private String usd(int aNumber) {
         return NumberFormat.getCurrencyInstance(Locale.US).format(aNumber);
     }
 
