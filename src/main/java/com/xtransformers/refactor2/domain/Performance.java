@@ -19,5 +19,5 @@ public class Performance {
     /**
      * 观众数量
      */
-    private Integer audienct;
+    private Integer audience;
 }
