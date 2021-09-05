@@ -18,10 +18,8 @@ public class StatementService {
 
     public String statement(Invoice invoice, Map<String, Play> plays) throws Exception {
         this.plays = plays;
-
         String result = "Statement for " + invoice.getCustomer() + "\n";
         for (Performance perf : invoice.getPerformances()) {
-
             // print line for this order
             result += "  " + playFor(perf).getName() + ": " + usd(amountFor(perf) / 100)
                     + " (" + perf.getAudience() + " seats)\n";
