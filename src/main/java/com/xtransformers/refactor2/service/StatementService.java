@@ -26,8 +26,7 @@ public class StatementService {
             result += "  " + playFor(perf).getName() + ": " + usd(amountFor(perf) / 100)
                     + " (" + perf.getAudience() + " seats)\n";
         }
-        int totalAmount = totalAmount(invoice);
-        result += "Amount owed is " + usd(totalAmount / 100) + "\n";
+        result += "Amount owed is " + usd(totalAmount(invoice) / 100) + "\n";
         result += "You earned " + totalVolumeCredits(invoice) + " credits\n";
         return result;
     }
