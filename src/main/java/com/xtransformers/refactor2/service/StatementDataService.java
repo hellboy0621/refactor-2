@@ -31,9 +31,11 @@ public class StatementDataService {
     }
 
     private Performance enrichPerformance(Performance performance, Map<String, Play> plays) throws Exception {
+        PerformanceCalculator calculator = new PerformanceCalculator(performance, playFor(performance, plays));
+
         Performance result = new Performance();
         BeanUtils.copyProperties(performance, result);
-        result.setPlay(playFor(result, plays));
+        result.setPlay(calculator.getPlay());
         result.setAmount(amountFor(result));
         result.setVolumeCredits(volumeCreditsFor(result));
         return result;
