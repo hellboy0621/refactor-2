@@ -56,19 +56,17 @@ public class StatementService {
     }
 
     private int totalAmount(StatementData statementData) {
-        int result = 0;
-        for (Performance perf : statementData.getPerformances()) {
-            result += perf.getAmount();
-        }
-        return result;
+        return statementData.getPerformances()
+                .stream()
+                .mapToInt(Performance::getAmount)
+                .sum();
     }
 
     private int totalVolumeCredits(StatementData statementData) {
-        int result = 0;
-        for (Performance perf : statementData.getPerformances()) {
-            result += perf.getVolumeCredits();
-        }
-        return result;
+        return statementData.getPerformances()
+                .stream()
+                .mapToInt(Performance::getVolumeCredits)
+                .sum();
     }
 
     private String usd(int aNumber) {
