@@ -16,26 +16,26 @@ public class StatementService {
 
     private Map<String, Play> plays;
 
-    public void setPlays(Map<String, Play> plays) {
-        this.plays = plays;
-    }
-
     public String statement(Invoice invoice, Map<String, Play> plays) throws Exception {
+        this.plays = plays;
         int totalAmount = 0;
         int volumeCredits = 0;
         String result = "Statement for " + invoice.getCustomer() + "\n";
-        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.US);
         for (Performance perf : invoice.getPerformances()) {
             volumeCredits += volumeCreditsFor(perf);
 
             // print line for this order
-            result += "  " + playFor(perf).getName() + ": " + numberFormat.format(amountFor(perf) / 100)
+            result += "  " + playFor(perf).getName() + ": " + usd(amountFor(perf) / 100)
                     + " (" + perf.getAudience() + " seats)\n";
             totalAmount += amountFor(perf);
         }
-        result += "Amount owed is " + numberFormat.format(totalAmount / 100) + "\n";
+        result += "Amount owed is " + usd(totalAmount / 100) + "\n";
         result += "You earned " + volumeCredits + " credits\n";
         return result;
+    }
+
+    private String usd(int aNumber) {
+        return NumberFormat.getCurrencyInstance(Locale.US).format(aNumber);
     }
 
     private int volumeCreditsFor(Performance aPerformance) {
