@@ -22,11 +22,12 @@ public class StatementService {
         this.invoice = invoice;
         this.plays = plays;
         StatementData statementData = new StatementData();
+        statementData.setCustomer(invoice.getCustomer());
         return renderPlainText(statementData, invoice);
     }
 
     private String renderPlainText(StatementData statementData, Invoice invoice) throws Exception {
-        String result = "Statement for " + invoice.getCustomer() + "\n";
+        String result = "Statement for " + statementData.getCustomer() + "\n";
         for (Performance perf : invoice.getPerformances()) {
             result += "  " + playFor(perf).getName() + ": " + usd(amountFor(perf) / 100) + " (" + perf.getAudience() + " seats)\n";
         }
