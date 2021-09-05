@@ -52,7 +52,9 @@ public class StatementServiceTest {
         }).get(0);
         Map<String, Play> plays = JSONObject.parseObject(JsonConstant.PLAYS, new TypeReference<Map<String, Play>>() {
         });
-        String statement = new StatementService().statement(invoice, plays);
+        StatementService statementService = new StatementService();
+        statementService.setPlays(plays);
+        String statement = statementService.statement(invoice, plays);
         String expected = "Statement for BigCo\n" +
                 "  Hamlet: $650.00 (55 seats)\n" +
                 "  As You Like It: $580.00 (35 seats)\n" +

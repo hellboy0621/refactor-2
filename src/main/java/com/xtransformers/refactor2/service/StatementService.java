@@ -14,35 +14,43 @@ import java.util.Map;
  */
 public class StatementService {
 
+    private Map<String, Play> plays;
+
+    public void setPlays(Map<String, Play> plays) {
+        this.plays = plays;
+    }
+
     public String statement(Invoice invoice, Map<String, Play> plays) throws Exception {
         int totalAmount = 0;
         int volumeCredits = 0;
         String result = "Statement for " + invoice.getCustomer() + "\n";
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.US);
         for (Performance perf : invoice.getPerformances()) {
-            Play play = plays.get(perf.getPlayId());
-            int thisAmount = amountFor(perf, play);
 
             // add volume credits
             volumeCredits += Math.max(perf.getAudience() - 30, 0);
             // add extra credit for every ten comedy attendees
-            if ("comedy".equals(play.getType())) {
+            if ("comedy".equals(playFor(perf).getType())) {
                 volumeCredits += Math.floor(perf.getAudience() / 5);
             }
 
             // print line for this order
-            result += "  " + play.getName() + ": " + numberFormat.format(thisAmount / 100)
+            result += "  " + playFor(perf).getName() + ": " + numberFormat.format(amountFor(perf) / 100)
                     + " (" + perf.getAudience() + " seats)\n";
-            totalAmount += thisAmount;
+            totalAmount += amountFor(perf);
         }
         result += "Amount owed is " + numberFormat.format(totalAmount / 100) + "\n";
         result += "You earned " + volumeCredits + " credits\n";
         return result;
     }
 
-    private int amountFor(Performance aPerformance, Play play) throws Exception {
+    private Play playFor(Performance aPerformance) {
+        return plays.get(aPerformance.getPlayId());
+    }
+
+    private int amountFor(Performance aPerformance) throws Exception {
         int result = 0;
-        switch (play.getType()) {
+        switch (playFor(aPerformance).getType()) {
             case "tragedy":
                 result = 40000;
                 if (aPerformance.getAudience() > 30) {
@@ -57,7 +65,7 @@ public class StatementService {
                 result += 300 * aPerformance.getAudience();
                 break;
             default:
-                throw new Exception("unknown type: " + play.getType());
+                throw new Exception("unknown type: " + playFor(aPerformance).getType());
         }
         return result;
     }
