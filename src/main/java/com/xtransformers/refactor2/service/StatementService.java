@@ -26,13 +26,18 @@ public class StatementService {
             result += "  " + playFor(perf).getName() + ": " + usd(amountFor(perf) / 100)
                     + " (" + perf.getAudience() + " seats)\n";
         }
+        int totalAmount = totalAmount(invoice);
+        result += "Amount owed is " + usd(totalAmount / 100) + "\n";
+        result += "You earned " + totalVolumeCredits(invoice) + " credits\n";
+        return result;
+    }
+
+    private int totalAmount(Invoice invoice) throws Exception {
         int totalAmount = 0;
         for (Performance perf : invoice.getPerformances()) {
             totalAmount += amountFor(perf);
         }
-        result += "Amount owed is " + usd(totalAmount / 100) + "\n";
-        result += "You earned " + totalVolumeCredits(invoice) + " credits\n";
-        return result;
+        return totalAmount;
     }
 
     private int totalVolumeCredits(Invoice invoice) {
