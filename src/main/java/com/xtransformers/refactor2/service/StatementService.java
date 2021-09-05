@@ -32,6 +32,9 @@ public class StatementService {
             collect.add(enrichPerformance(each));
         }
         statementData.setPerformances(collect);
+
+        statementData.setTotalAmount(totalAmount());
+        statementData.setTotalVolumeCredits(totalVolumeCredits());
         return renderPlainText(statementData);
     }
 
@@ -49,8 +52,8 @@ public class StatementService {
         for (Performance perf : statementData.getPerformances()) {
             result += "  " + perf.getPlay().getName() + ": " + usd(perf.getAmount() / 100) + " (" + perf.getAudience() + " seats)\n";
         }
-        result += "Amount owed is " + usd(totalAmount() / 100) + "\n";
-        result += "You earned " + totalVolumeCredits() + " credits\n";
+        result += "Amount owed is " + usd(statementData.getTotalAmount() / 100) + "\n";
+        result += "You earned " + statementData.getTotalVolumeCredits() + " credits\n";
         return result;
     }
 
