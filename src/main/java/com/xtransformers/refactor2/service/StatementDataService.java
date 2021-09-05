@@ -36,7 +36,7 @@ public class StatementDataService {
         Performance result = new Performance();
         BeanUtils.copyProperties(performance, result);
         result.setPlay(calculator.getPlay());
-        result.setAmount(amountFor(result));
+        result.setAmount(amountFor(result, plays));
         result.setVolumeCredits(volumeCreditsFor(result));
         return result;
     }
@@ -68,25 +68,7 @@ public class StatementDataService {
         return plays.get(aPerformance.getPlayId());
     }
 
-    private int amountFor(Performance aPerformance) throws Exception {
-        int result = 0;
-        switch (aPerformance.getPlay().getType()) {
-            case "tragedy":
-                result = 40000;
-                if (aPerformance.getAudience() > 30) {
-                    result += 1000 * (aPerformance.getAudience() - 30);
-                }
-                break;
-            case "comedy":
-                result = 30000;
-                if (aPerformance.getAudience() > 20) {
-                    result += 10000 + 500 * (aPerformance.getAudience() - 20);
-                }
-                result += 300 * aPerformance.getAudience();
-                break;
-            default:
-                throw new Exception("unknown type: " + aPerformance.getPlay().getType());
-        }
-        return result;
+    private int amountFor(Performance aPerformance, Map<String, Play> plays) throws Exception {
+        return new PerformanceCalculator(aPerformance, playFor(aPerformance, plays)).amount();
     }
 }
