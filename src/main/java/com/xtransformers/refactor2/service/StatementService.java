@@ -3,6 +3,7 @@ package com.xtransformers.refactor2.service;
 import com.xtransformers.refactor2.domain.Invoice;
 import com.xtransformers.refactor2.domain.Performance;
 import com.xtransformers.refactor2.domain.Play;
+import com.xtransformers.refactor2.domain.StatementData;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -14,14 +15,22 @@ import java.util.Map;
  */
 public class StatementService {
 
-    private Invoice invoice;
     private Map<String, Play> plays;
 
+    private StatementData statementData;
+
     public String statement(Invoice invoice, Map<String, Play> plays) throws Exception {
-        this.invoice = invoice;
         this.plays = plays;
-        String result = "Statement for " + invoice.getCustomer() + "\n";
-        for (Performance perf : invoice.getPerformances()) {
+
+        statementData = new StatementData();
+        statementData.setCustomer(invoice.getCustomer());
+        statementData.setPerformances(invoice.getPerformances());
+        return renderPlainText(statementData);
+    }
+
+    private String renderPlainText(StatementData statementData) throws Exception {
+        String result = "Statement for " + statementData.getCustomer() + "\n";
+        for (Performance perf : statementData.getPerformances()) {
             result += "  " + playFor(perf).getName() + ": " + usd(amountFor(perf) / 100) + " (" + perf.getAudience() + " seats)\n";
         }
         result += "Amount owed is " + usd(totalAmount() / 100) + "\n";
@@ -31,7 +40,7 @@ public class StatementService {
 
     private int totalAmount() throws Exception {
         int result = 0;
-        for (Performance perf : invoice.getPerformances()) {
+        for (Performance perf : statementData.getPerformances()) {
             result += amountFor(perf);
         }
         return result;
@@ -39,7 +48,7 @@ public class StatementService {
 
     private int totalVolumeCredits() {
         int result = 0;
-        for (Performance perf : invoice.getPerformances()) {
+        for (Performance perf : statementData.getPerformances()) {
             result += volumeCreditsFor(perf);
         }
         return result;
