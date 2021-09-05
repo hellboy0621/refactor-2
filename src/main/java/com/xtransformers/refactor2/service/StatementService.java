@@ -20,12 +20,10 @@ public class StatementService {
 
     private Map<String, Play> plays;
 
-    private StatementData statementData;
-
     public String statement(Invoice invoice, Map<String, Play> plays) throws Exception {
         this.plays = plays;
 
-        statementData = new StatementData();
+        StatementData statementData = new StatementData();
         statementData.setCustomer(invoice.getCustomer());
         List<Performance> collect = new ArrayList<>();
         for (Performance each : invoice.getPerformances()) {
@@ -33,8 +31,8 @@ public class StatementService {
         }
         statementData.setPerformances(collect);
 
-        statementData.setTotalAmount(totalAmount());
-        statementData.setTotalVolumeCredits(totalVolumeCredits());
+        statementData.setTotalAmount(totalAmount(statementData));
+        statementData.setTotalVolumeCredits(totalVolumeCredits(statementData));
         return renderPlainText(statementData);
     }
 
@@ -57,7 +55,7 @@ public class StatementService {
         return result;
     }
 
-    private int totalAmount() {
+    private int totalAmount(StatementData statementData) {
         int result = 0;
         for (Performance perf : statementData.getPerformances()) {
             result += perf.getAmount();
@@ -65,7 +63,7 @@ public class StatementService {
         return result;
     }
 
-    private int totalVolumeCredits() {
+    private int totalVolumeCredits(StatementData statementData) {
         int result = 0;
         for (Performance perf : statementData.getPerformances()) {
             result += perf.getVolumeCredits();
