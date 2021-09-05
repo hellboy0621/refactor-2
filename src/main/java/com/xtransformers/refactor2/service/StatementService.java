@@ -3,6 +3,7 @@ package com.xtransformers.refactor2.service;
 import com.xtransformers.refactor2.domain.Invoice;
 import com.xtransformers.refactor2.domain.Performance;
 import com.xtransformers.refactor2.domain.Play;
+import com.xtransformers.refactor2.domain.StatementData;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -20,10 +21,11 @@ public class StatementService {
     public String statement(Invoice invoice, Map<String, Play> plays) throws Exception {
         this.invoice = invoice;
         this.plays = plays;
-        return renderPlainText(invoice);
+        StatementData statementData = new StatementData();
+        return renderPlainText(statementData, invoice);
     }
 
-    private String renderPlainText(Invoice invoice) throws Exception {
+    private String renderPlainText(StatementData statementData, Invoice invoice) throws Exception {
         String result = "Statement for " + invoice.getCustomer() + "\n";
         for (Performance perf : invoice.getPerformances()) {
             result += "  " + playFor(perf).getName() + ": " + usd(amountFor(perf) / 100) + " (" + perf.getAudience() + " seats)\n";
