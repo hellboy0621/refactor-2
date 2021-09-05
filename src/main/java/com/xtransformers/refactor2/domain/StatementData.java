@@ -23,4 +23,14 @@ public class StatementData {
      */
     private List<Performance> performances;
 
+    /**
+     * 总金额
+     */
+    private int totalAmount;
+
+    /**
+     * 总观众量积分
+     */
+    private int totalVolumeCredits;
+
 }
