@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 public class PerformanceCalculator {
 
-    private final Performance performance;
+    protected final Performance performance;
     private final Play play;
 
     public PerformanceCalculator(Performance performance, Play play) {
@@ -21,34 +21,12 @@ public class PerformanceCalculator {
         this.play = play;
     }
 
-    public int getAmount() throws Exception {
-        int result = 0;
-        switch (play.getType()) {
-            case "tragedy":
-                result = 40000;
-                if (performance.getAudience() > 30) {
-                    result += 1000 * (performance.getAudience() - 30);
-                }
-                break;
-            case "comedy":
-                result = 30000;
-                if (performance.getAudience() > 20) {
-                    result += 10000 + 500 * (performance.getAudience() - 20);
-                }
-                result += 300 * performance.getAudience();
-                break;
-            default:
-                throw new Exception("unknown type: " + play.getType());
-        }
-        return result;
+    public int getAmount() {
+        throw new RuntimeException("subclass responsibility");
     }
 
     public int getVolumeCredits() {
-        int result = 0;
-        result += Math.max(performance.getAudience() - 30, 0);
-        if ("comedy".equals(play.getType())) {
-            result += Math.floor(performance.getAudience() / 5);
-        }
-        return result;
+        // 通用逻辑在超类中作为默认条件
+        return Math.max(performance.getAudience() - 30, 0);
     }
 }
