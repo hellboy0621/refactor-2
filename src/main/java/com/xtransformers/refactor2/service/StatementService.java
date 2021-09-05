@@ -19,7 +19,7 @@ public class StatementService {
     public String statement(Invoice invoice, Map<String, Play> plays) throws Exception {
         this.plays = plays;
         int totalAmount = 0;
-        int volumeCredits = 0;
+
         String result = "Statement for " + invoice.getCustomer() + "\n";
         for (Performance perf : invoice.getPerformances()) {
 
@@ -28,6 +28,7 @@ public class StatementService {
                     + " (" + perf.getAudience() + " seats)\n";
             totalAmount += amountFor(perf);
         }
+        int volumeCredits = 0;
         for (Performance perf : invoice.getPerformances()) {
             volumeCredits += volumeCreditsFor(perf);
         }
