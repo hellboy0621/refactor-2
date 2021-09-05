@@ -16,11 +16,8 @@ public class StatementService {
 
     private Map<String, Play> plays;
 
-    public void setPlays(Map<String, Play> plays) {
-        this.plays = plays;
-    }
-
     public String statement(Invoice invoice, Map<String, Play> plays) throws Exception {
+        this.plays = plays;
         int totalAmount = 0;
         int volumeCredits = 0;
         String result = "Statement for " + invoice.getCustomer() + "\n";
