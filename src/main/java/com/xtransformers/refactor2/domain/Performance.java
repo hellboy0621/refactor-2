@@ -25,4 +25,9 @@ public class Performance {
      * 剧目信息
      */
     private Play play;
+
+    /**
+     * 总金额
+     */
+    private int amount;
 }
