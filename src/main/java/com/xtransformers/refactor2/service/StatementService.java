@@ -22,9 +22,7 @@ public class StatementService {
         this.plays = plays;
         String result = "Statement for " + invoice.getCustomer() + "\n";
         for (Performance perf : invoice.getPerformances()) {
-            // print line for this order
-            result += "  " + playFor(perf).getName() + ": " + usd(amountFor(perf) / 100)
-                    + " (" + perf.getAudience() + " seats)\n";
+            result += "  " + playFor(perf).getName() + ": " + usd(amountFor(perf) / 100) + " (" + perf.getAudience() + " seats)\n";
         }
         result += "Amount owed is " + usd(totalAmount() / 100) + "\n";
         result += "You earned " + totalVolumeCredits() + " credits\n";
