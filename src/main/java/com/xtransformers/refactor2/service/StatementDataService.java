@@ -37,7 +37,7 @@ public class StatementDataService {
         BeanUtils.copyProperties(performance, result);
         result.setPlay(calculator.getPlay());
         result.setAmount(calculator.getAmount());
-        result.setVolumeCredits(volumeCreditsFor(result));
+        result.setVolumeCredits(volumeCreditsFor(result, plays));
         return result;
     }
 
@@ -55,13 +55,8 @@ public class StatementDataService {
                 .sum();
     }
 
-    private int volumeCreditsFor(Performance aPerformance) {
-        int result = 0;
-        result += Math.max(aPerformance.getAudience() - 30, 0);
-        if ("comedy".equals(aPerformance.getPlay().getType())) {
-            result += Math.floor(aPerformance.getAudience() / 5);
-        }
-        return result;
+    private int volumeCreditsFor(Performance aPerformance, Map<String, Play> plays) {
+        return new PerformanceCalculator(aPerformance, playFor(aPerformance, plays)).getVolumeCredits();
     }
 
     private Play playFor(Performance aPerformance, Map<String, Play> plays) {
