@@ -35,27 +35,28 @@ public class StatementService {
         return renderPlainText(statementData);
     }
 
-    private Performance enrichPerformance(Performance performance) {
+    private Performance enrichPerformance(Performance performance) throws Exception {
         Performance result = new Performance();
         BeanUtils.copyProperties(performance, result);
-        result.setPlay(playFor(performance));
+        result.setPlay(playFor(result));
+        result.setAmount(amountFor(result));
         return result;
     }
 
-    private String renderPlainText(StatementData statementData) throws Exception {
+    private String renderPlainText(StatementData statementData) {
         String result = "Statement for " + statementData.getCustomer() + "\n";
         for (Performance perf : statementData.getPerformances()) {
-            result += "  " + perf.getPlay().getName() + ": " + usd(amountFor(perf) / 100) + " (" + perf.getAudience() + " seats)\n";
+            result += "  " + perf.getPlay().getName() + ": " + usd(perf.getAmount() / 100) + " (" + perf.getAudience() + " seats)\n";
         }
         result += "Amount owed is " + usd(totalAmount() / 100) + "\n";
         result += "You earned " + totalVolumeCredits() + " credits\n";
         return result;
     }
 
-    private int totalAmount() throws Exception {
+    private int totalAmount() {
         int result = 0;
         for (Performance perf : statementData.getPerformances()) {
-            result += amountFor(perf);
+            result += perf.getAmount();
         }
         return result;
     }
