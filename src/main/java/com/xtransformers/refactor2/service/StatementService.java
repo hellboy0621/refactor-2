@@ -22,12 +22,14 @@ public class StatementService {
         int volumeCredits = 0;
         String result = "Statement for " + invoice.getCustomer() + "\n";
         for (Performance perf : invoice.getPerformances()) {
-            volumeCredits += volumeCreditsFor(perf);
 
             // print line for this order
             result += "  " + playFor(perf).getName() + ": " + usd(amountFor(perf) / 100)
                     + " (" + perf.getAudience() + " seats)\n";
             totalAmount += amountFor(perf);
+        }
+        for (Performance perf : invoice.getPerformances()) {
+            volumeCredits += volumeCreditsFor(perf);
         }
         result += "Amount owed is " + usd(totalAmount / 100) + "\n";
         result += "You earned " + volumeCredits + " credits\n";
