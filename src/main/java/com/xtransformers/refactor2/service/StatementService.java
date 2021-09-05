@@ -14,9 +14,11 @@ import java.util.Map;
  */
 public class StatementService {
 
+    private Invoice invoice;
     private Map<String, Play> plays;
 
     public String statement(Invoice invoice, Map<String, Play> plays) throws Exception {
+        this.invoice = invoice;
         this.plays = plays;
         String result = "Statement for " + invoice.getCustomer() + "\n";
         for (Performance perf : invoice.getPerformances()) {
@@ -24,12 +26,12 @@ public class StatementService {
             result += "  " + playFor(perf).getName() + ": " + usd(amountFor(perf) / 100)
                     + " (" + perf.getAudience() + " seats)\n";
         }
-        result += "Amount owed is " + usd(totalAmount(invoice) / 100) + "\n";
-        result += "You earned " + totalVolumeCredits(invoice) + " credits\n";
+        result += "Amount owed is " + usd(totalAmount() / 100) + "\n";
+        result += "You earned " + totalVolumeCredits() + " credits\n";
         return result;
     }
 
-    private int totalAmount(Invoice invoice) throws Exception {
+    private int totalAmount() throws Exception {
         int totalAmount = 0;
         for (Performance perf : invoice.getPerformances()) {
             totalAmount += amountFor(perf);
@@ -37,7 +39,7 @@ public class StatementService {
         return totalAmount;
     }
 
-    private int totalVolumeCredits(Invoice invoice) {
+    private int totalVolumeCredits() {
         int volumeCredits = 0;
         for (Performance perf : invoice.getPerformances()) {
             volumeCredits += volumeCreditsFor(perf);
