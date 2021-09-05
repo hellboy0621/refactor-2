@@ -4,8 +4,11 @@ import com.xtransformers.refactor2.domain.Invoice;
 import com.xtransformers.refactor2.domain.Performance;
 import com.xtransformers.refactor2.domain.Play;
 import com.xtransformers.refactor2.domain.StatementData;
+import org.springframework.beans.BeanUtils;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -24,8 +27,18 @@ public class StatementService {
 
         statementData = new StatementData();
         statementData.setCustomer(invoice.getCustomer());
-        statementData.setPerformances(invoice.getPerformances());
+        List<Performance> collect = new ArrayList<>();
+        for (Performance each : invoice.getPerformances()) {
+            collect.add(enrichPerformance(each));
+        }
+        statementData.setPerformances(collect);
         return renderPlainText(statementData);
+    }
+
+    private Performance enrichPerformance(Performance performance) {
+        Performance result = new Performance();
+        BeanUtils.copyProperties(performance, result);
+        return result;
     }
 
     private String renderPlainText(StatementData statementData) throws Exception {
