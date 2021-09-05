@@ -26,6 +26,8 @@ public class StatementService {
             // print line for this order
             result += "  " + playFor(perf).getName() + ": " + usd(amountFor(perf) / 100)
                     + " (" + perf.getAudience() + " seats)\n";
+        }
+        for (Performance perf : invoice.getPerformances()) {
             totalAmount += amountFor(perf);
         }
         result += "Amount owed is " + usd(totalAmount / 100) + "\n";
