@@ -20,4 +20,19 @@ public class Performance {
      * 观众数量
      */
     private Integer audience;
+
+    /**
+     * 剧目信息
+     */
+    private Play play;
+
+    /**
+     * 总金额
+     */
+    private int amount;
+
+    /**
+     * 观众量积分
+     */
+    private int volumeCredits;
 }

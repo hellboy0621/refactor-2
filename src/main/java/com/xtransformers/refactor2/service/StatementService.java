@@ -4,8 +4,11 @@ import com.xtransformers.refactor2.domain.Invoice;
 import com.xtransformers.refactor2.domain.Performance;
 import com.xtransformers.refactor2.domain.Play;
 import com.xtransformers.refactor2.domain.StatementData;
+import org.springframework.beans.BeanUtils;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -24,24 +27,37 @@ public class StatementService {
 
         statementData = new StatementData();
         statementData.setCustomer(invoice.getCustomer());
-        statementData.setPerformances(invoice.getPerformances());
+        List<Performance> collect = new ArrayList<>();
+        for (Performance each : invoice.getPerformances()) {
+            collect.add(enrichPerformance(each));
+        }
+        statementData.setPerformances(collect);
         return renderPlainText(statementData);
     }
 
-    private String renderPlainText(StatementData statementData) throws Exception {
+    private Performance enrichPerformance(Performance performance) throws Exception {
+        Performance result = new Performance();
+        BeanUtils.copyProperties(performance, result);
+        result.setPlay(playFor(result));
+        result.setAmount(amountFor(result));
+        result.setVolumeCredits(volumeCreditsFor(result));
+        return result;
+    }
+
+    private String renderPlainText(StatementData statementData) {
         String result = "Statement for " + statementData.getCustomer() + "\n";
         for (Performance perf : statementData.getPerformances()) {
-            result += "  " + playFor(perf).getName() + ": " + usd(amountFor(perf) / 100) + " (" + perf.getAudience() + " seats)\n";
+            result += "  " + perf.getPlay().getName() + ": " + usd(perf.getAmount() / 100) + " (" + perf.getAudience() + " seats)\n";
         }
         result += "Amount owed is " + usd(totalAmount() / 100) + "\n";
         result += "You earned " + totalVolumeCredits() + " credits\n";
         return result;
     }
 
-    private int totalAmount() throws Exception {
+    private int totalAmount() {
         int result = 0;
         for (Performance perf : statementData.getPerformances()) {
-            result += amountFor(perf);
+            result += perf.getAmount();
         }
         return result;
     }
@@ -49,7 +65,7 @@ public class StatementService {
     private int totalVolumeCredits() {
         int result = 0;
         for (Performance perf : statementData.getPerformances()) {
-            result += volumeCreditsFor(perf);
+            result += perf.getVolumeCredits();
         }
         return result;
     }
@@ -61,7 +77,7 @@ public class StatementService {
     private int volumeCreditsFor(Performance aPerformance) {
         int result = 0;
         result += Math.max(aPerformance.getAudience() - 30, 0);
-        if ("comedy".equals(playFor(aPerformance).getType())) {
+        if ("comedy".equals(aPerformance.getPlay().getType())) {
             result += Math.floor(aPerformance.getAudience() / 5);
         }
         return result;
@@ -73,7 +89,7 @@ public class StatementService {
 
     private int amountFor(Performance aPerformance) throws Exception {
         int result = 0;
-        switch (playFor(aPerformance).getType()) {
+        switch (aPerformance.getPlay().getType()) {
             case "tragedy":
                 result = 40000;
                 if (aPerformance.getAudience() > 30) {
@@ -88,7 +104,7 @@ public class StatementService {
                 result += 300 * aPerformance.getAudience();
                 break;
             default:
-                throw new Exception("unknown type: " + playFor(aPerformance).getType());
+                throw new Exception("unknown type: " + aPerformance.getPlay().getType());
         }
         return result;
     }
