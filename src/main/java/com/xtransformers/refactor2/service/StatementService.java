@@ -15,13 +15,14 @@ import java.util.Map;
  */
 public class StatementService {
 
-    private Invoice invoice;
     private Map<String, Play> plays;
 
+    private StatementData statementData;
+
     public String statement(Invoice invoice, Map<String, Play> plays) throws Exception {
-        this.invoice = invoice;
         this.plays = plays;
-        StatementData statementData = new StatementData();
+
+        statementData = new StatementData();
         statementData.setCustomer(invoice.getCustomer());
         statementData.setPerformances(invoice.getPerformances());
         return renderPlainText(statementData);
@@ -39,7 +40,7 @@ public class StatementService {
 
     private int totalAmount() throws Exception {
         int result = 0;
-        for (Performance perf : invoice.getPerformances()) {
+        for (Performance perf : statementData.getPerformances()) {
             result += amountFor(perf);
         }
         return result;
@@ -47,7 +48,7 @@ public class StatementService {
 
     private int totalVolumeCredits() {
         int result = 0;
-        for (Performance perf : invoice.getPerformances()) {
+        for (Performance perf : statementData.getPerformances()) {
             result += volumeCreditsFor(perf);
         }
         return result;
