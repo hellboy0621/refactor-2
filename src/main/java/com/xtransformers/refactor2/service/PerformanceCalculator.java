@@ -21,22 +21,8 @@ public class PerformanceCalculator {
         this.play = play;
     }
 
-    public int getAmount() throws Exception {
-        int result = 0;
-        switch (play.getType()) {
-            case "tragedy":
-                throw new RuntimeException("subclass responsibility");
-            case "comedy":
-                result = 30000;
-                if (performance.getAudience() > 20) {
-                    result += 10000 + 500 * (performance.getAudience() - 20);
-                }
-                result += 300 * performance.getAudience();
-                break;
-            default:
-                throw new Exception("unknown type: " + play.getType());
-        }
-        return result;
+    public int getAmount() {
+        throw new RuntimeException("subclass responsibility");
     }
 
     public int getVolumeCredits() {
