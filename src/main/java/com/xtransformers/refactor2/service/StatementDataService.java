@@ -55,15 +55,8 @@ public class StatementDataService {
                 .sum();
     }
 
-    private int volumeCreditsFor(Performance aPerformance, Map<String, Play> plays) {
-        return new PerformanceCalculator(aPerformance, playFor(aPerformance, plays)).getVolumeCredits();
-    }
-
     private Play playFor(Performance aPerformance, Map<String, Play> plays) {
         return plays.get(aPerformance.getPlayId());
     }
 
-    private int amountFor(Performance aPerformance, Map<String, Play> plays) throws Exception {
-        return new PerformanceCalculator(aPerformance, playFor(aPerformance, plays)).getAmount();
-    }
 }
