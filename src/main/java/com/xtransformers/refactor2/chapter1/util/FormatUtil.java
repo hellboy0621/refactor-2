@@ -1,4 +1,4 @@
-package com.xtransformers.refactor2.util;
+package com.xtransformers.refactor2.chapter1.util;
 
 import java.text.NumberFormat;
 import java.util.Locale;

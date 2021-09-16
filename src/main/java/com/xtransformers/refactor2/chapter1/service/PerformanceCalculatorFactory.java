@@ -1,7 +1,7 @@
-package com.xtransformers.refactor2.service;
+package com.xtransformers.refactor2.chapter1.service;
 
-import com.xtransformers.refactor2.domain.Performance;
-import com.xtransformers.refactor2.domain.Play;
+import com.xtransformers.refactor2.chapter1.domain.Performance;
+import com.xtransformers.refactor2.chapter1.domain.Play;
 
 /**
  * 演出计算器工厂类

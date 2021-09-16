@@ -1,9 +1,9 @@
-package com.xtransformers.refactor2.service;
+package com.xtransformers.refactor2.chapter1.service;
 
-import com.xtransformers.refactor2.domain.Invoice;
-import com.xtransformers.refactor2.domain.Performance;
-import com.xtransformers.refactor2.domain.Play;
-import com.xtransformers.refactor2.domain.StatementData;
+import com.xtransformers.refactor2.chapter1.domain.Invoice;
+import com.xtransformers.refactor2.chapter1.domain.Performance;
+import com.xtransformers.refactor2.chapter1.domain.Play;
+import com.xtransformers.refactor2.chapter1.domain.StatementData;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;

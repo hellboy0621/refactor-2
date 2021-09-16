@@ -1,10 +1,11 @@
-package com.xtransformers.refactor2.service;
+package com.xtransformers.refactor2.chapter1.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-import com.xtransformers.refactor2.constant.JsonConstant;
-import com.xtransformers.refactor2.domain.Invoice;
-import com.xtransformers.refactor2.domain.Play;
+import com.xtransformers.refactor2.chapter1.constant.JsonConstant;
+import com.xtransformers.refactor2.chapter1.domain.Invoice;
+import com.xtransformers.refactor2.chapter1.domain.Play;
+import com.xtransformers.refactor2.chapter1.service.StatementService;
 import org.junit.Test;
 
 import java.text.NumberFormat;

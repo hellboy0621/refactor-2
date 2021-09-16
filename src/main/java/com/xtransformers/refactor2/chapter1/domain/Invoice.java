@@ -1,4 +1,4 @@
-package com.xtransformers.refactor2.domain;
+package com.xtransformers.refactor2.chapter1.domain;
 
 import lombok.Data;
 

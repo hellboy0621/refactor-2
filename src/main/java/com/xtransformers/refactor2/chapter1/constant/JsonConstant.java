@@ -1,4 +1,4 @@
-package com.xtransformers.refactor2.constant;
+package com.xtransformers.refactor2.chapter1.constant;
 
 /**
  * 常量接口
