@@ -14,11 +14,10 @@ import java.util.Date;
 public class ExtractFunctionDemo {
 
     public void printOwing(Invoice invoice) {
-        int outstanding = 0;
-
         printBanner();
 
         // calculate outstanding
+        int outstanding = 0;
         for (Order each : invoice.getOrders()) {
             outstanding += each.getAmount();
         }
