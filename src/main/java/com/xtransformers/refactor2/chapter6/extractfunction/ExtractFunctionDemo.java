@@ -15,16 +15,8 @@ public class ExtractFunctionDemo {
 
     public void printOwing(Invoice invoice) {
         printBanner();
-
-        // calculate outstanding
-        int outstanding = 0;
-        for (Order each : invoice.getOrders()) {
-            outstanding += each.getAmount();
-        }
-
-        // record due date
+        int outstanding = calculateOutstanding(invoice);
         recordDueDate(invoice);
-
         printDetail(invoice, outstanding);
     }
 
