@@ -27,7 +27,10 @@ public class ExtractFunctionDemo {
         Date today = new Clock().today();
         invoice.setDueDate(new Date(today.getTime()));
 
-        // print details
+        printDetail(invoice, outstanding);
+    }
+
+    private void printDetail(Invoice invoice, int outstanding) {
         System.out.println("name: " + invoice.getName());
         System.out.println("amount: " + outstanding);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
