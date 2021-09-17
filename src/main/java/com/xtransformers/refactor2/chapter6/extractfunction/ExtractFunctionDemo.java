@@ -16,9 +16,7 @@ public class ExtractFunctionDemo {
     public void printOwing(Invoice invoice) {
         int outstanding = 0;
 
-        System.out.println("*******************************");
-        System.out.println("********* Customer Owes *******");
-        System.out.println("*******************************");
+        printBanner();
 
         // calculate outstanding
         for (Order each : invoice.getOrders()) {
@@ -34,6 +32,12 @@ public class ExtractFunctionDemo {
         System.out.println("amount: " + outstanding);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.println("due: " + sdf.format(invoice.getDueDate()));
+    }
+
+    private void printBanner() {
+        System.out.println("*******************************");
+        System.out.println("********* Customer Owes *******");
+        System.out.println("*******************************");
     }
 
 }
