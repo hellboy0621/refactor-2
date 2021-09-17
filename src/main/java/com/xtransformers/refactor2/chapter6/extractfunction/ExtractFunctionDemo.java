@@ -28,6 +28,14 @@ public class ExtractFunctionDemo {
         printDetail(invoice, outstanding);
     }
 
+    private int calculateOutstanding(Invoice invoice) {
+        int outstanding = 0;
+        for (Order each : invoice.getOrders()) {
+            outstanding += each.getAmount();
+        }
+        return outstanding;
+    }
+
     private void recordDueDate(Invoice invoice) {
         Date today = new Clock().today();
         invoice.setDueDate(new Date(today.getTime()));
