@@ -21,11 +21,11 @@ public class ExtractFunctionDemo {
     }
 
     private int calculateOutstanding(Invoice invoice) {
-        int outstanding = 0;
+        int result = 0;
         for (Order each : invoice.getOrders()) {
-            outstanding += each.getAmount();
+            result += each.getAmount();
         }
-        return outstanding;
+        return result;
     }
 
     private void recordDueDate(Invoice invoice) {
