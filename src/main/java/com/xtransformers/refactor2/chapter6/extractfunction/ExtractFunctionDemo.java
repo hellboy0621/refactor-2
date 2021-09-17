@@ -24,10 +24,14 @@ public class ExtractFunctionDemo {
         }
 
         // record due date
-        Date today = new Clock().today();
-        invoice.setDueDate(new Date(today.getTime()));
+        recordDueDate(invoice);
 
         printDetail(invoice, outstanding);
+    }
+
+    private void recordDueDate(Invoice invoice) {
+        Date today = new Clock().today();
+        invoice.setDueDate(new Date(today.getTime()));
     }
 
     private void printDetail(Invoice invoice, int outstanding) {
