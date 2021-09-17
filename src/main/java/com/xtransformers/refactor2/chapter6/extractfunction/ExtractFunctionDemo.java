@@ -15,7 +15,7 @@ public class ExtractFunctionDemo {
 
     public void printOwing(Invoice invoice) {
         printBanner();
-        int outstanding = calculateOutstanding(invoice);
+        final int outstanding = calculateOutstanding(invoice);
         recordDueDate(invoice);
         printDetail(invoice, outstanding);
     }
