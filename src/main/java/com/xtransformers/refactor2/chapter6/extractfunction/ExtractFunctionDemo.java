@@ -14,26 +14,36 @@ import java.util.Date;
 public class ExtractFunctionDemo {
 
     public void printOwing(Invoice invoice) {
-        int outstanding = 0;
+        printBanner();
+        final int outstanding = calculateOutstanding(invoice);
+        recordDueDate(invoice);
+        printDetail(invoice, outstanding);
+    }
 
-        System.out.println("*******************************");
-        System.out.println("********* Customer Owes *******");
-        System.out.println("*******************************");
-
-        // calculate outstanding
+    private int calculateOutstanding(Invoice invoice) {
+        int result = 0;
         for (Order each : invoice.getOrders()) {
-            outstanding += each.getAmount();
+            result += each.getAmount();
         }
+        return result;
+    }
 
-        // record due date
+    private void recordDueDate(Invoice invoice) {
         Date today = new Clock().today();
         invoice.setDueDate(new Date(today.getTime()));
+    }
 
-        // print details
+    private void printDetail(Invoice invoice, int outstanding) {
         System.out.println("name: " + invoice.getName());
         System.out.println("amount: " + outstanding);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.println("due: " + sdf.format(invoice.getDueDate()));
+    }
+
+    private void printBanner() {
+        System.out.println("*******************************");
+        System.out.println("********* Customer Owes *******");
+        System.out.println("*******************************");
     }
 
 }
